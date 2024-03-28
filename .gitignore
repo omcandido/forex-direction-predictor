@@ -1,0 +1,13 @@
+**/ipynb_checkpoints/
+
+.venv
+.env
+# .vscode/
+
+**/__pycache__
+**/.pytest_cache
+
+datasets/*
+pairs/*
+
+!**/.gitkeep
