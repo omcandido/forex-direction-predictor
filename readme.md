@@ -1,4 +1,4 @@
-# Stock direction predictor
+# Forex direction predictor
 Using deep learning to predict the movement (up, down or none) of the forex market. The [demo](demo.ipynb) notebook demonstrates how to predict price fluctuations of the EURUSD pair using a 1D-CNN, achieving a 65% accuracy on the test set.
 
 ## Dependencies
