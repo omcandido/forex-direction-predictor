@@ -171,14 +171,18 @@ class ToMulticlass(object):
         return y
     
 class ToPipDifference(object):
+   # Subtract the subsequent closing price from the last one.
+    # This gives a stationary time series.
+    def __init__(self, pip=1e-4) -> None:
+        self.pip = pip
     def __call__(self, x):
-        # subtract the subsequent closing price from the current one
-        open_prices = x['candlesticks'][OHLC.OPEN]
-        # shift open_prices by 1 to the left
-        open_prices = np.roll(open_prices, 1)
+        # Get all the open prices.
+        open_prices = x['candlesticks'][:, OHLC.OPEN].reshape(-1, 1)
+        # Roll everything to the left so it's easier to calculate the deltas.
+        open_prices = np.roll(open_prices, -1, axis=0)
+        # Approximate the current open price with the last close price.
         open_prices[-1] = x['candlesticks'][-1][OHLC.CLOSE]
-        x['candlesticks'] = x['candlesticks'] - open_prices
-        x['candlesticks'] /= 1e-4
+        x['candlesticks'] = (x['candlesticks'] - open_prices) / self.pip
         return x
     
 def scale(x, minimum=-50, maximum=50, clip=True):
